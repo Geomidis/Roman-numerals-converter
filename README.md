@@ -13,6 +13,7 @@ The approach here, after careful consideration to both code readability as well 
 3. Apply a few obvious checks to see if the input is compatible (1 - 3999), making sure there is no garbade characters in the Roman string (i.e. other symbols and letters not part of the Roman numeral system).
 
 The functions have comments, but the Arabic -> Roman function will reverse the characters of the input (so 3999 will be 9993) and the results will be unshifted rather than pushed in an array that will be joined when done, to help with the reverse nature of conversion here.
+
 The Roman -> Arabic function will loop in reverse order through the lookup table for as long as there are more Roman characters to convert, then calculate the right number using simple Math (since the lookup table is done in an array of arrays, this is easy - check the code!). The reverse order here is again necessary as X is contained in both X but *also* XC, meaning if not done in reverce it would work as X then C, rather than XC.
 
 The `/convert` endpoint expects an object of this structure, sent as the BODY (application/json):
