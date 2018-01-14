@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Roman Numerals converter tester</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <style>
+    	body {
+    		text-align: center;
+    		padding-top: 30px;
+    		font-family: Roboto;
+    		color: #333;
+    	}
+    	.tester {
+    		width: 100%;
+    		max-width: 480px;
+    		margin: 0 auto;
+    	}
+    	input {
+    		padding: 10px 20px;
+    		font-size: 18px;
+    		border: 1px solid #ddd;
+    		border-radius: 5px;
+    		margin-top: 10px;
+    		text-transform: uppercase;
+    		box-sizing: border-box;
+    		min-width: 300px;
+    	}
+    	#result {
+    		text-align: center;
+    		font-size: 35px;
+    		margin-top: 20px;
+    	}
+	</style>
+  </head>
+  <body>
+
+  	<div class="tester">  
+	    <h1>Roman numerals converter<br /> test utility</h1>
+	    <p>
+	    	Please use the input box below to enter Roman or Arabic numerals. The response should be shown below! In case there is an error, the error will be shown instead, to know what went wrong. This HTML file needs to be served by a web server to avoid any CORS issues, although every care has been taken to try to avoid it :) The service will only accept numbers between 1 - 3999.
+	    </p>
+	  	<input id="input" type="text" placeholder="Number (Roman/Arabic)" />
+	  	<div id="result"></div>
+  </div>
+
+  	<script>
+
+  		function handleResponse ( response ) {
+	    	if ( !response.ok ) {
+				throw Error( response.statusText );
+			}
+			return response.json ();
+		}
+
+  		function changeHandler ( event ) {
+		 	fetch ( 'http://localhost:5000/convert', {
+    			method: 'POST',
+    			body: JSON.stringify ( { "input": event.target.value } )
+  			} )
+            .then ( handleResponse )
+            .then ( data => {
+            	document.querySelector ( '#result' ).innerHTML = ( data.error ) ? data.error : data.result;
+            } )
+            .catch ( error => { console.log ( error ); } );
+  		}
+
+  		document.addEventListener ( 'DOMContentLoaded', function () {
+	    	document.querySelector ( '#input' ).oninput = changeHandler;
+		}, false );
+  		
+	</script>
+
+  </body>
+</html>
